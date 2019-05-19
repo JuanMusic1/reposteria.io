@@ -20,3 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Tag
+Route::get('/tags/{id}', 'TagController@index')->name('tags.index');
