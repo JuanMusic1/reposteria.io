@@ -28,8 +28,6 @@
 
 ## Insert tags
 
-INSERT INTO tags (title, description) VALUES ('Fisica mecánica', 'Fisica mecánica');
-INSERT INTO tags (title, description) VALUES ('Física de campos', 'Física de campos');
-INSERT INTO tags (title, description) VALUES ('Física de ondas', 'Física de ondas');
-INSERT INTO tags (title, description) VALUES ('Química general e inorgánica', 'Química general e inorgánica');
-INSERT INTO tags (title, description) VALUES ('Biología', 'Biología');
+INSERT INTO tags (title, description) VALUES ('Fisica mecánica', 'La mecánica es la rama de la física que estudia y analiza el movimiento y reposo de los cuerpos, y su evolución en el tiempo, bajo la acción de fuerzas.');
+INSERT INTO tags (title, description) VALUES ('Física de campos', 'En física, la teoría de campos describe el conjunto de principios y técnicas matemáticas que permiten estudiar la dinámica y distribución espacial de los campos físicos.');
+INSERT INTO tags (title, description) VALUES ('Física de ondas', 'La física de ondas estudia propagación de perturbaciones de medios materiales y de campos en un contexto clásico, destacando sus implicaciones y sus efectos en medios deformables: acústica y óptica.');
