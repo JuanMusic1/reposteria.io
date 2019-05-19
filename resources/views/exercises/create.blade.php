@@ -24,29 +24,41 @@
                     @endif
                 
                   <form method="post" action="{{ route('exercises.store') }}">
-                      <div class="form-group">
+                      
+                    <div class="form-group">
                           @csrf
-                          <label for="title">Título:</label>
+                          <label for="exercise_title">Título:</label>
                           <input type="text" class="form-control" name="exercise_title"/>
                       </div>
+                      
                       <div class="form-group">
-                          <label for="description">Descripción:</label>
+                          <label for="exercise_description">Descripción:</label>
                           <textarea class="form-control" name="exercise_description" rows="5"></textarea>
-                        </div>
-                      <div class="form-group">
-                            <label for="tag">Categoría:</label>
+                      </div>
+                      
+                        <div class="form-group">
+                            <label for="execise_tag">Categoría:</label>
                             <select class="form-control" name="execise_tag">
                                 @foreach($tags as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->title }}</option>
                                 @endforeach
                             </select>
                       </div>
+                      
+                      <div class="form-group">
+                            <div class="form-group">
+                                <label for="exercise_description">IDs de los usuarios separados por coma:</label>
+                                <textarea class="form-control" name="exercise_users" rows="2"></textarea>
+                            </div>
+                      </div>
+
                       <div class="form-group control-group increment">
                             <label for="files">Archivos:</label>
                             <input type="file" class="form-control-file" name="attachment[]" multiple>
                       </div>
                       <button type="submit" class="btn btn-primary">Subir</button>
-                  </form>
+                  
+                    </form>
               
                 </div>
             </div>
