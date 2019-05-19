@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit245bf44bff2656be2e0c6034af76486e
+class ComposerStaticInita737604a9c139f637c723323f00cb63b
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -362,7 +362,7 @@ class ComposerStaticInit245bf44bff2656be2e0c6034af76486e
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
-        'App\\Excercise' => __DIR__ . '/../..' . '/app/Excercise.php',
+        'App\\Exercise' => __DIR__ . '/../..' . '/app/Exercise.php',
         'App\\File' => __DIR__ . '/../..' . '/app/File.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -386,7 +386,6 @@ class ComposerStaticInit245bf44bff2656be2e0c6034af76486e
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Tag' => __DIR__ . '/../..' . '/app/Tag.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
-        'App\\User_Excercise' => __DIR__ . '/../..' . '/app/User_Excercise.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
         'BeyondCode\\DumpServer\\Dumper' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/Dumper.php',
@@ -3921,10 +3920,10 @@ class ComposerStaticInit245bf44bff2656be2e0c6034af76486e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit245bf44bff2656be2e0c6034af76486e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit245bf44bff2656be2e0c6034af76486e::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit245bf44bff2656be2e0c6034af76486e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit245bf44bff2656be2e0c6034af76486e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita737604a9c139f637c723323f00cb63b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita737604a9c139f637c723323f00cb63b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita737604a9c139f637c723323f00cb63b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita737604a9c139f637c723323f00cb63b::$classMap;
 
         }, null, ClassLoader::class);
     }

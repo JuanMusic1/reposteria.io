@@ -8,6 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
+    public function exercises()
+    {
+        return $this->belongsToMany(Exercise::class);
+    }
+
     use Notifiable;
 
     /**
@@ -36,9 +42,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-    public function user_excercise(){
-        return $this->hasMany(User_Excercise::class);
-    }
 }

@@ -12,24 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.main');
+    return view('welcome');
 });
 
-//Index
-Route::get('/tasks', 'TasksController@index');
-//Save
-Route::post('/tasks', 'TasksController@store');
-//Create
-Route::get('/tasks/create', 'TasksController@create');
-//Show
-Route::get('/tasks/{task}', 'TasksController@show');
-//Edit
-Route::get('/tasks/{task}/edit', 'TasksController@edit');
-//Update
-Route::patch('/tasks/{task}', 'TasksController@update');
-//Delete
-Route::delete('/tasks/{task}', 'TasksController@destroy');
-
-
 Auth::routes();
+
 Route::get('/home', 'HomeController@index')->name('home');
