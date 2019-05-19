@@ -10,4 +10,14 @@ class Exercise extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'tag_id', 'title', 'description'
+    ];
+
 }

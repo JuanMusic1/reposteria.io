@@ -37,8 +37,38 @@ class ExerciseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+
+        // Validate shit
+        $request->validate([
+            'exercise_title'=>'required',
+            'exercise_description'=> 'required',
+            'exercise_tag' => 'required'
+          ]);
+
+        
+        $exercises = new Share([
+            'exercise_title' => $request->get('exercise_title'),
+            'exercise_description'=> $request->get('exercise_description'),
+            'exercise_tag'=> $request->get('exercise_tag')
+        ]);
+        
+        $exercises->save();
+        
+            
+        // Get files
+        $files = $request->file('attachment');
+        if($request->hasFile('attachment'))
+        {
+            foreach ($files as $file) {
+                $file->store('users/' . $this->user->id . '/messages');
+            }
+        }
+
+        return redirect('/exercises')->with('success', 'Ejercicio agregado correctamente');
+
+        
+
     }
 
     /**

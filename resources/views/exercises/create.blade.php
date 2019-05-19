@@ -31,19 +31,19 @@
                       </div>
                       <div class="form-group">
                           <label for="description">Descripción:</label>
-                          <input type="text" class="form-control" name="exercise_description"/>
-                      </div>
+                          <textarea class="form-control" name="exercise_description" rows="5"></textarea>
+                        </div>
                       <div class="form-group">
-                            <label for="tag">Tag:</label>
+                            <label for="tag">Categoría:</label>
                             <select class="form-control" name="execise_tag">
                                 @foreach($tags as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->title }}</option>
                                 @endforeach
                             </select>
                       </div>
-                      <div class="form-group">
-                          <label for="files">Archivos:</label>
-                          <input type="file" class="form-control-file" multiple data-show-upload="true" data-show-caption="true" name="files[]">
+                      <div class="form-group control-group increment">
+                            <label for="files">Archivos:</label>
+                            <input type="file" class="form-control-file" name="attachment[]" multiple>
                       </div>
                       <button type="submit" class="btn btn-primary">Subir</button>
                   </form>
@@ -54,5 +54,27 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+      $(".btn-success").click(function(){ 
+
+          var lsthmtl = $(".clone").html();
+
+          $(".increment").after(lsthmtl);
+
+      });
+
+      $("body").on("click",".btn-danger",function(){ 
+
+          $(this).parents(".hdtuto control-group lst").remove();
+
+      });
+
+    });
+
+</script>
 
 @endsection
