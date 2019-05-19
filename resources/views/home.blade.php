@@ -1,23 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
+<section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Tags</h1>
+      <p class="lead text-muted">
+            Aquí podrás encontrar los principales tópicos  
+      <p>
+        <a href="#" class="btn btn-primary">Subir ejercicio</a>
+      </p>
     </div>
-</div>
+</section>
+
+
+<ul>
+        @foreach($tags as $tag)
+            <li><a href="{{ route('tags.index', $tag->id) }}">{{$tag->title}}</a></li>
+        @endforeach
+    </ul>    
+
+
 @endsection
