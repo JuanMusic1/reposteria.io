@@ -19,5 +19,10 @@ php artisan migrate
 
 php artisan make:migration create_user_exercise_table --create=user_exercise
 
+## Create controllers
+
+php artisan make:controller TagController
+php artisan make:controller ExerciseController
+php artisan make:controller FileController
 
 
