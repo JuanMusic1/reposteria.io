@@ -1,28 +1,27 @@
 ## Create initial shit
 
-CREATE USER 'donpepeysusglobos'@'localhost' IDENTIFIED BY 'sierrita';
-CREATE DATABASE reposteriadb;
-GRANT ALL PRIVILEGES ON reposteriadb.* TO 'donpepeysusglobos'@'localhost';
+* CREATE USER 'donpepeysusglobos'@'localhost' IDENTIFIED BY 'sierrita';
+* CREATE DATABASE reposteriadb;
+* GRANT ALL PRIVILEGES ON reposteriadb.* TO 'donpepeysusglobos'@'localhost';
 
 ## Create auth
-php artisan make:auth
+
+* php artisan make:auth
 
 ## Crete models
 
-php artisan make:model Tag -m
-php artisan make:model Exercise -m
-php artisan make:model File -m
+* php artisan make:model Tag -m
+* php artisan make:model Exercise -m
+* php artisan make:model File -m
 
-php artisan migrate
+* php artisan migrate
 
 ## Create many to many relationships
 
-php artisan make:migration create_user_exercise_table --create=user_exercise
+* php artisan make:migration create_user_exercise_table --create=user_exercise
 
 ## Create controllers
 
-php artisan make:controller TagController
-php artisan make:controller ExerciseController
-php artisan make:controller FileController
-
-
+* php artisan make:controller TagController
+* php artisan make:controller ExerciseController
+* php artisan make:controller FileController
