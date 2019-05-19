@@ -25,3 +25,11 @@
 * php artisan make:controller TagController
 * php artisan make:controller ExerciseController
 * php artisan make:controller FileController
+
+## Insert tags
+
+INSERT INTO tags (title, description) VALUES ('Fisica mecánica', 'Fisica mecánica');
+INSERT INTO tags (title, description) VALUES ('Física de campos', 'Física de campos');
+INSERT INTO tags (title, description) VALUES ('Física de ondas', 'Física de ondas');
+INSERT INTO tags (title, description) VALUES ('Química general e inorgánica', 'Química general e inorgánica');
+INSERT INTO tags (title, description) VALUES ('Biología', 'Biología');
