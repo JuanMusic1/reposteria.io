@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Tag;
+
 
 class ExerciseController extends Controller
 {
@@ -22,8 +24,10 @@ class ExerciseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   
+        $tags = Tag::all();
+        return view('exercises.create', compact('tags'));
+
     }
 
     /**
