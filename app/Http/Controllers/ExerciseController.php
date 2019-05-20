@@ -14,30 +14,41 @@ use Storage;
 
 class ExerciseController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
    /**
-     * Display a listing of the resource.
+     * Desplegar la lista de ejercicios a
+     * los que tiene acceso el usuario actual
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $exercises = Auth::user()->exercises;
+
+        return view('tags.index', compact('exercises'));
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar el formulario para la creación de un ejercicio
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {   
         $tags = Tag::all();
+
         return view('exercises.create', compact('tags'));
 
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Manejar el almacenamiento de información
+     * en las distintas tablas relacionadas
+     * a un ejercicio
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -110,7 +121,7 @@ class ExerciseController extends Controller
         }
 
 
-        //return redirect('/exercises')->with('success', 'Ejercicio agregado correctamente');        
+        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');        
 
     }
 
@@ -126,14 +137,16 @@ class ExerciseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Mostrar el formulario de edición de un ejercicio
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $exercise = Exercise::find($id);
+
+        return view('exercises.edit', compact('exercise'));
     }
 
     /**
@@ -149,13 +162,16 @@ class ExerciseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un ejercicio determinado
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $exercise = Exercise::find($id);
+        $exercise->delete();
+
+        return redirect('/home')->with('success', 'El ejercicio fue eliminado exitosamente');
     }
 }

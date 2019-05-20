@@ -39,7 +39,6 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                            <a class="nav-link" href="{{ route('exercises.create') }}">Subir ejercicio</a>
                             <a class="nav-link" href="/home">Home</a>
                     <!-- Authentication Links -->
                         @guest
@@ -61,11 +60,15 @@
                                     
                                     <a class="dropdown-item">ID: {{Auth::user()->id }}</a>
 
+                                    <a class="dropdown-item" href="{{ route('exercises.index') }}">Mis ejercicios</a>
+
+                                    <a class="dropdown-item" href="{{ route('exercises.create') }}">Subir ejercicio</a>
+
                                     <!-- Logout -->
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                         {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
