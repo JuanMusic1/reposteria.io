@@ -27,10 +27,11 @@ class ExerciseController extends Controller
      */
     public function index()
     {
+
         $exercises = Auth::user()->exercises;
 
-        return view('tags.index', compact('exercises'));
-
+        return view('exercises.index', compact('exercises'));
+    
     }
 
     /**
@@ -144,9 +145,11 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
+        $tags = Tag::all();
         $exercise = Exercise::find($id);
+        $users = $exercise->users;
 
-        return view('exercises.edit', compact('exercise'));
+        return view('exercises.edit', compact('exercise', 'tags', 'users'));
     }
 
     /**
@@ -158,7 +161,18 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'share_name'=>'required',
+            'share_price'=> 'required|integer',
+            'share_qty' => 'required|integer'
+          ]);
+    
+          $exercise = Exercise::find($id);
+          
+          $exercise->save();
+          
+          return redirect('/home')->with('success', 'Ejercicio agregado correctamente');        
+
     }
 
     /**

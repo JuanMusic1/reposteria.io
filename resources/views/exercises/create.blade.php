@@ -43,7 +43,7 @@
                                     <option value="{{ $tag->id }}">{{ $tag->title }}</option>
                                 @endforeach
                             </select>
-                      </div>
+                        </div>
                       
                       <div class="form-group">
                             <div class="form-group">
@@ -56,6 +56,7 @@
                             <label for="files">Archivos:</label>
                             <input type="file" class="form-control-file" name="attachment[]" multiple>
                       </div>
+
                       <button type="submit" class="btn btn-primary">Subir</button>
                   
                     </form>
