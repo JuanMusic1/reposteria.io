@@ -37,8 +37,8 @@
                       </div>
                       
                         <div class="form-group">
-                            <label for="execise_tag">Categoría:</label>
-                            <select class="form-control" name="execise_tag">
+                            <label for="exercise_tag">Categoría:</label>
+                            <select class="form-control" name="exercise_tag">
                                 @foreach($tags as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->title }}</option>
                                 @endforeach

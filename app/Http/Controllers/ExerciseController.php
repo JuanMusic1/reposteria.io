@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tag;
+use App\Exercise;
+
 
 
 class ExerciseController extends Controller
@@ -47,23 +49,13 @@ class ExerciseController extends Controller
           ]);
 
         
-        $exercises = new Share([
-            'exercise_title' => $request->get('exercise_title'),
-            'exercise_description'=> $request->get('exercise_description'),
-            'exercise_tag'=> $request->get('exercise_tag')
+        $exercises = new Exercise([
+            'title' => $request->get('exercise_title'),
+            'description' => $request->get('exercise_description'),
+            'tag_id'=> $request->get('exercise_tag')
         ]);
         
         $exercises->save();
-        
-            
-        // Get files
-        $files = $request->file('attachment');
-        if($request->hasFile('attachment'))
-        {
-            foreach ($files as $file) {
-                $file->store('users/' . $this->user->id . '/messages');
-            }
-        }
 
         return redirect('/exercises')->with('success', 'Ejercicio agregado correctamente');
 
