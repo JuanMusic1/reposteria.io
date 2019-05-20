@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Tag;
 use App\Exercise;
+use App\File;
 
+use Auth;
+use Storage;
 
 
 class ExerciseController extends Controller
@@ -41,25 +45,72 @@ class ExerciseController extends Controller
     public function store(Request $request)
     {   
 
-        // Validate shit
+        // Save exercise
+
         $request->validate([
             'exercise_title'=>'required',
             'exercise_description'=> 'required',
             'exercise_tag' => 'required'
           ]);
 
-        
         $exercises = new Exercise([
             'title' => $request->get('exercise_title'),
             'description' => $request->get('exercise_description'),
             'tag_id'=> $request->get('exercise_tag')
         ]);
-        
+
         $exercises->save();
-
-        return redirect('/exercises')->with('success', 'Ejercicio agregado correctamente');
-
         
+
+        // Save exercise_user
+
+        $user = Auth::user()->id;
+        $exercises->users()->attach($user);
+        
+        if($request->get('exercise_users') != "")
+        {
+            foreach (explode(',', $request->get('exercise_users')) as $id)
+            {
+                $exercises->users()->attach($id);
+            }
+        }
+
+
+        // Save files
+        
+        if($request->hasFile('attachment'))
+        {
+            $allowedfileExtension = ['pdf','jpg','png','docx'];
+            $attachments = $request->file('attachment');
+
+            foreach ($attachments as $attachment)
+            {
+
+                $attachmentName = $attachment->getClientOriginalName();
+                $extension      = $attachment->getClientOriginalExtension();
+                $check          = in_array($extension,$allowedfileExtension);
+                $filename       = $attachmentName.'_'.time().'.'.$extension;
+
+
+                if($check)
+                {   
+                    // Storage
+                    $attachment->storeAs('public/'.$exercises->id, $filename);
+
+                    //Save in database
+                    $files = new File([
+                        'exercise_id' => $exercises->id,
+                        'url' =>  $filename
+                    ]);
+                    $files->save();
+
+                }   
+
+            }
+        }
+
+
+        //return redirect('/exercises')->with('success', 'Ejercicio agregado correctamente');        
 
     }
 

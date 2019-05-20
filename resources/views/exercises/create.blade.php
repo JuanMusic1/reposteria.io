@@ -23,7 +23,7 @@
                     </div><br />
                     @endif
                 
-                  <form method="post" action="{{ route('exercises.store') }}">
+                  <form method="post" action="{{ route('exercises.store') }} " enctype="multipart/form-data">
                       
                     <div class="form-group">
                           @csrf
@@ -47,7 +47,7 @@
                       
                       <div class="form-group">
                             <div class="form-group">
-                                <label for="exercise_description">IDs de los usuarios separados por coma:</label>
+                                <label for="exercise_description">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
                                 <textarea class="form-control" name="exercise_users" rows="2"></textarea>
                             </div>
                       </div>

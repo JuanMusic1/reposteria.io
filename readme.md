@@ -18,7 +18,7 @@
 
 ## Create many to many relationships
 
-* php artisan make:migration create_user_exercise_table --create=user_exercise
+* php artisan make:migration create_exercise_user_table --create=user_exercise
 
 ## Create controllers
 
