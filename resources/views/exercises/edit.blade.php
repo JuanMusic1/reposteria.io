@@ -29,18 +29,18 @@
                     @csrf
                     
                         <div class="form-group">
-                            <label for="exercise_title">Titulo:</label>
-                            <input type="text" class="form-control" name="exercise_title" value={{ $exercise->title }} />
+                            <label for="title">Titulo:</label>
+                            <input type="text" class="form-control" name="title" value={{ $exercise->title }} />
                          </div>
 
                         <div class="form-group">
-                          <label for="exercise_description">Descripcion:</label>
-                          <textarea class="form-control" name="exercise_description" rows="5">{{ $exercise->description }}</textarea>
+                          <label for="description">Descripcion:</label>
+                          <textarea class="form-control" name="description" rows="5">{{ $exercise->description }}</textarea>
                         </div>
 
                         <div class="form-group">
-                                <label for="exercise_tag">Categoría:</label>
-                                <select class="form-control" name="exercise_tag">
+                                <label for="tag">Categoría:</label>
+                                <select class="form-control" name="tag">
                                     @foreach($tags as $tag)
                                         <option value="{{ $tag->id }}" @if($tag->id == $exercise->tag_id) {{ "seleced" }} @endif >{{ $tag->title }}</option>
                                     @endforeach
@@ -49,8 +49,8 @@
 
                         <div class="form-group">
                                 <div class="form-group">
-                                    <label for="exercise_description">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
-                                    <textarea class="form-control" name="exercise_users" rows="2">@foreach($users as $user){{ $user->id.","}} @endforeach</textarea>
+                                    <label for="users">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
+                                    <textarea class="form-control" name="users" rows="2">@foreach($users as $user){{ $user->id.","}} @endforeach</textarea>
                                 </div>
                         </div>
 

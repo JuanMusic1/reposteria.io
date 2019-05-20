@@ -60,15 +60,15 @@ class ExerciseController extends Controller
         // Save exercise
 
         $request->validate([
-            'exercise_title'=>'required',
-            'exercise_description'=> 'required',
-            'exercise_tag' => 'required'
+            'title'=>'required',
+            'description'=> 'required',
+            'tag' => 'required'
           ]);
 
         $exercises = new Exercise([
-            'title' => $request->get('exercise_title'),
-            'description' => $request->get('exercise_description'),
-            'tag_id'=> $request->get('exercise_tag')
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'tag_id'=> $request->get('tag')
         ]);
 
         $exercises->save();
@@ -79,9 +79,9 @@ class ExerciseController extends Controller
         $user = Auth::user()->id;
         $exercises->users()->attach($user);
         
-        if($request->get('exercise_users') != "")
+        if($request->get('users') != "")
         {
-            foreach (explode(',', $request->get('exercise_users')) as $id)
+            foreach (explode(',', $request->get('users')) as $id)
             {
                 $exercises->users()->attach($id);
             }
@@ -127,14 +127,18 @@ class ExerciseController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar un ejercicio específico
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        
+        $exercise = Exercise::find($id);
+
+        return view('exercises.show', compact('exercise'));
+
     }
 
     /**
@@ -145,15 +149,17 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
+        
         $tags = Tag::all();
         $exercise = Exercise::find($id);
         $users = $exercise->users;
 
         return view('exercises.edit', compact('exercise', 'tags', 'users'));
+    
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar los datos de un ejercicio editado
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -162,16 +168,65 @@ class ExerciseController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'share_name'=>'required',
-            'share_price'=> 'required|integer',
-            'share_qty' => 'required|integer'
+            'title'=>'required',
+            'description'=> 'required',
+            'tag' => 'required'
           ]);
+
+        // Update exercise
+
+        $exercise = Exercise::find($id);
+        $exercise->title = $request->get('title');
+        $exercise->description = $request->get('description');
+        $exercise->tag = $request->get('tag');
+        $exercise->save();
+        
+        // Update exercise_user
+
+        if($request->get('users') != "")
+        {
+            foreach (explode(',', $request->get('users')) as $id)
+            {
+                $exercise->users()->attach($id);
+            }
+        }
     
-          $exercise = Exercise::find($id);
-          
-          $exercise->save();
-          
-          return redirect('/home')->with('success', 'Ejercicio agregado correctamente');        
+        // Update files
+    
+        if($request->hasFile('attachment'))
+        {
+            $allowedfileExtension = ['pdf','jpg','png','docx'];
+            $attachments = $request->file('attachment');
+        
+            foreach ($attachments as $attachment)
+            {
+            
+                $attachmentName = $attachment->getClientOriginalName();
+                $extension      = $attachment->getClientOriginalExtension();
+                $check          = in_array($extension,$allowedfileExtension);
+                $filename       = $attachmentName.'_'.time().'.'.$extension;
+            
+            
+                if($check)
+                {   
+                    // Storage
+                    $attachment->storeAs('public/'.$exercises->id, $filename);
+                
+                    //Save in database
+                    $files = new File([
+                        'exercise_id' => $exercises->id,
+                        'url' =>  $filename
+                    ]);
+                    $files->save();
+                    
+                }   
+            
+            }
+        }
+
+        // Return
+
+        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');        
 
     }
 
@@ -183,9 +238,24 @@ class ExerciseController extends Controller
      */
     public function destroy($id)
     {
+
+        //Delete from exercise table
+
         $exercise = Exercise::find($id);
         $exercise->delete();
 
+        //Delete from exercise_user
+
+        $users->exercises()->detach($exercise);
+
+        // Delete files
+
+        $files = File::where('exercise_id', $id)->delete();
+
+        // Return
+
         return redirect('/home')->with('success', 'El ejercicio fue eliminado exitosamente');
+    
     }
+
 }

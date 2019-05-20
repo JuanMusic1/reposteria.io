@@ -27,18 +27,18 @@
                       
                     <div class="form-group">
                           @csrf
-                          <label for="exercise_title">Título:</label>
-                          <input type="text" class="form-control" name="exercise_title"/>
+                          <label for="title">Título:</label>
+                          <input type="text" class="form-control" name="title"/>
                       </div>
                       
                       <div class="form-group">
-                          <label for="exercise_description">Descripción:</label>
-                          <textarea class="form-control" name="exercise_description" rows="5"></textarea>
+                          <label for="description">Descripción:</label>
+                          <textarea class="form-control" name="description" rows="5"></textarea>
                       </div>
                       
                         <div class="form-group">
-                            <label for="exercise_tag">Categoría:</label>
-                            <select class="form-control" name="exercise_tag">
+                            <label for="tag">Categoría:</label>
+                            <select class="form-control" name="tag">
                                 @foreach($tags as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->title }}</option>
                                 @endforeach
@@ -47,8 +47,8 @@
                       
                       <div class="form-group">
                             <div class="form-group">
-                                <label for="exercise_description">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
-                                <textarea class="form-control" name="exercise_users" rows="2"></textarea>
+                                <label for="users">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
+                                <textarea class="form-control" name="users" rows="2"></textarea>
                             </div>
                       </div>
 
