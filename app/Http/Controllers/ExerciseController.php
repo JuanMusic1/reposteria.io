@@ -178,7 +178,7 @@ class ExerciseController extends Controller
         $exercise = Exercise::find($id);
         $exercise->title = $request->get('title');
         $exercise->description = $request->get('description');
-        $exercise->tag = $request->get('tag');
+        $exercise->tag_id = $request->get('tag');
         $exercise->save();
         
         // Update exercise_user
@@ -239,14 +239,20 @@ class ExerciseController extends Controller
     public function destroy($id)
     {
 
-        //Delete from exercise table
+        // Create model
 
         $exercise = Exercise::find($id);
+
+        // Delete from exercise_user
+        
+        $users = $exercise->users;
+        foreach($users as $user){
+            $user->exercises()->detach($exercise);
+        }
+
+        //Delete from exercise table
+
         $exercise->delete();
-
-        //Delete from exercise_user
-
-        $users->exercises()->detach($exercise);
 
         // Delete files
 
@@ -254,7 +260,7 @@ class ExerciseController extends Controller
 
         // Return
 
-        return redirect('/home')->with('success', 'El ejercicio fue eliminado exitosamente');
+        return redirect('/exercises')->with('success', 'El ejercicio fue eliminado exitosamente');
     
     }
 
