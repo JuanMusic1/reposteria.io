@@ -2,8 +2,10 @@
 
 @section('content')
 
+@if(count($exercises) > 0)
+
 <section class="text-center">
-    <div class="container">
+    <div class="container"> 
         
         <table class="table table-striped">
             
@@ -34,5 +36,18 @@
         </table>
     </div>
 </section>
+
+@else
+
+<section class="text-center">
+    <div class="container">
+
+        <div class="mt-3"><h3>Aún no hay ejercicios ¡Sube uno!</h1></div>
+        <div class="mt-3"><a href="{{ route('exercises.create')}}" class="btn btn-primary">Subir un ejercicio</a></div>
+
+    </div>
+</section>
+
+@endif
 
 @endsection
