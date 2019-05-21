@@ -4,16 +4,16 @@
 
 <section class="text-center">
     <div class="container">
-        
+
         <table class="table table-striped">
-            
+
             <thead>
                 <tr>
                   <td>Título</td>
                   <td colspan="3"></td>
                 </tr>
             </thead>
-            
+
             <tbody>
                 @foreach($exercises as $exercise)
                 <tr>
@@ -26,11 +26,11 @@
                           @method('DELETE')
                           <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
-                    </td>            
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
-    
+
         </table>
     </div>
 </section>

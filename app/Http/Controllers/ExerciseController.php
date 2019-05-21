@@ -30,6 +30,10 @@ class ExerciseController extends Controller
 
         $exercises = Auth::user()->exercises;
 
+        if(count($exercises) == 0){
+            return redirect('/home')->with('success', 'No hay ejercicios en la lista');;
+        }
+
         return view('exercises.index', compact('exercises'));
 
     }
@@ -210,7 +214,7 @@ class ExerciseController extends Controller
                 if($check)
                 {
                     // Storage
-                    $attachment->storeAs('public/'.$exercises->id, $filename);
+                    $attachmDeleteDeleteent->storeAs('public/'.$exercises->id, $filename);
 
                     //Save in database
                     $files = new File([
@@ -250,13 +254,13 @@ class ExerciseController extends Controller
             $user->exercises()->detach($exercise);
         }
 
-        //Delete from exercise table
-
-        $exercise->delete();
-
         // Delete files
 
         $files = File::where('exercise_id', $id)->delete();
+
+        //Delete from exercise table
+
+        $exercise->delete();
 
         // Return
 
