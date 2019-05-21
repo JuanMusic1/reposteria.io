@@ -31,7 +31,7 @@ class ExerciseController extends Controller
         $exercises = Auth::user()->exercises;
 
         return view('exercises.index', compact('exercises'));
-    
+
     }
 
     /**
@@ -39,7 +39,7 @@ class ExerciseController extends Controller
      *
      */
     public function create()
-    {   
+    {
         $tags = Tag::all();
 
         return view('exercises.create', compact('tags'));
@@ -55,7 +55,7 @@ class ExerciseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
 
         // Save exercise
 
@@ -72,13 +72,13 @@ class ExerciseController extends Controller
         ]);
 
         $exercises->save();
-        
+
 
         // Save exercise_user
 
         $user = Auth::user()->id;
         $exercises->users()->attach($user);
-        
+
         if($request->get('users') != "")
         {
             foreach (explode(',', $request->get('users')) as $id)
@@ -89,7 +89,7 @@ class ExerciseController extends Controller
 
 
         // Save files
-        
+
         if($request->hasFile('attachment'))
         {
             $allowedfileExtension = ['pdf','jpg','png','docx'];
@@ -105,7 +105,7 @@ class ExerciseController extends Controller
 
 
                 if($check)
-                {   
+                {
                     // Storage
                     $attachment->storeAs('public/'.$exercises->id, $filename);
 
@@ -116,13 +116,13 @@ class ExerciseController extends Controller
                     ]);
                     $files->save();
 
-                }   
+                }
 
             }
         }
 
 
-        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');        
+        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');
 
     }
 
@@ -134,7 +134,7 @@ class ExerciseController extends Controller
      */
     public function show($id)
     {
-        
+
         $exercise = Exercise::find($id);
 
         return view('exercises.show', compact('exercise'));
@@ -149,13 +149,13 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
-        
-        $tags = Tag::all();
+        $tags = Tag::where('user_id', auth()->id())->get();
+        //$tags = Tag::all();
         $exercise = Exercise::find($id);
         $users = $exercise->users;
 
         return view('exercises.edit', compact('exercise', 'tags', 'users'));
-    
+
     }
 
     /**
@@ -180,7 +180,7 @@ class ExerciseController extends Controller
         $exercise->description = $request->get('description');
         $exercise->tag_id = $request->get('tag');
         $exercise->save();
-        
+
         // Update exercise_user
 
         if($request->get('users') != "")
@@ -190,43 +190,43 @@ class ExerciseController extends Controller
                 $exercise->users()->attach($id);
             }
         }
-    
+
         // Update files
-    
+
         if($request->hasFile('attachment'))
         {
             $allowedfileExtension = ['pdf','jpg','png','docx'];
             $attachments = $request->file('attachment');
-        
+
             foreach ($attachments as $attachment)
             {
-            
+
                 $attachmentName = $attachment->getClientOriginalName();
                 $extension      = $attachment->getClientOriginalExtension();
                 $check          = in_array($extension,$allowedfileExtension);
                 $filename       = $attachmentName.'_'.time().'.'.$extension;
-            
-            
+
+
                 if($check)
-                {   
+                {
                     // Storage
                     $attachment->storeAs('public/'.$exercises->id, $filename);
-                
+
                     //Save in database
                     $files = new File([
                         'exercise_id' => $exercises->id,
                         'url' =>  $filename
                     ]);
                     $files->save();
-                    
-                }   
-            
+
+                }
+
             }
         }
 
         // Return
 
-        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');        
+        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');
 
     }
 
@@ -244,7 +244,7 @@ class ExerciseController extends Controller
         $exercise = Exercise::find($id);
 
         // Delete from exercise_user
-        
+
         $users = $exercise->users;
         foreach($users as $user){
             $user->exercises()->detach($exercise);
@@ -261,7 +261,7 @@ class ExerciseController extends Controller
         // Return
 
         return redirect('/exercises')->with('success', 'El ejercicio fue eliminado exitosamente');
-    
+
     }
 
 }
