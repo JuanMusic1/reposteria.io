@@ -149,8 +149,8 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
-        $tags = Tag::where('user_id', auth()->id())->get();
-        //$tags = Tag::all();
+        //$tags = Tag::where('user_id', auth()->id())->get();
+        $tags = Tag::all();
         $exercise = Exercise::find($id);
         $users = $exercise->users;
 
