@@ -42,11 +42,12 @@ class ExerciseController extends Controller
      * Mostrar el formulario para la creación de un ejercicio
      *
      */
-    public function create()
+    public function create(Request $request)
     {
-        $tags = Tag::all();
+        $tags       = Tag::all(); 
+        $requestTag = $request->input('tag');
 
-        return view('exercises.create', compact('tags'));
+        return view('exercises.create', compact('tags', 'requestTag'));
 
     }
 

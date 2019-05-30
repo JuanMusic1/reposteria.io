@@ -49,8 +49,8 @@ class TagController extends Controller
     {
         
         $exercises = Exercise::where('tag_id', $id)->get();
-
-        return view('tags.index', compact('exercises'));
+        
+        return view('tags.index', compact('exercises'))->withTag($id);
         
     }
 

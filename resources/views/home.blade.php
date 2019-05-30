@@ -15,7 +15,7 @@
         <div class="card-columns">
         @foreach($tags as $tag)
 
-        <a href="{{ route('tags.show', $tag->id) }}">
+        <a href="{{ route('tags.show', $tag) }}">
         <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
                 <div class="card-header">{{$tag->title}}</div>
                 <div class="card-body">

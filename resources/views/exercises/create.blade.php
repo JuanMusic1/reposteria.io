@@ -40,7 +40,7 @@
                             <label for="tag">Categoría:</label>
                             <select class="form-control" name="tag">
                                 @foreach($tags as $tag)
-                                    <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                                    <option value="{{ $tag->id }}" @if($tag->id == $requestTag) {{ "selected" }} @endif >{{ $tag->title }}</option>
                                 @endforeach
                             </select>
                         </div>
