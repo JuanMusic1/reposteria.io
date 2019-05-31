@@ -49,12 +49,28 @@
                         <div class="form-group">
                             <label for="users">IDs de los usuarios:</label><br>
                             <input data-role="tagsinput" name="users"/>
-                      </div>
+                        </div>
 
                       <div class="form-group control-group increment">
                             <label for="files">Archivos:</label>
-                            <input type="file" class="form-control-file" name="attachment[]" multiple>
-                      </div>
+                            
+                            <div class="file-loading">
+                                <input type="file" name="attachment[]" data-preview-file-type="text" multiple>
+                            </div>
+
+
+                            <script>
+                                $(document).on('ready', function() {
+                                    // initialize with defaults
+                                    $("[type='file']").fileinput({ initialPreview: [url1, url2],
+                                        theme: "fas"
+                                    });
+                                });
+                            </script>
+
+                        </div>  
+
+                            
 
                       <button type="submit" class="btn btn-primary">Subir</button>
                   
@@ -66,5 +82,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection

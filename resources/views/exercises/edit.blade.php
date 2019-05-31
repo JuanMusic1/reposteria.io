@@ -47,18 +47,30 @@
                                 </select>
                         </div>
 
+                    
                         <div class="form-group">
-                                <div class="form-group">
-                                    <label for="users">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
-                                    <textarea class="form-control" name="users" rows="2">@foreach($users as $user){{ $user->id.","}} @endforeach</textarea>
-                                </div>
-                        </div>
-
-                        <div class="form-group control-group increment">
+                                <label for="users">IDs de los usuarios:</label><br>
+                                <input value="@foreach($users as $user) {{ $user->id . "," }} @endforeach" data-role="tagsinput" name="users"/>
+                            </div>
+    
+                          <div class="form-group control-group increment">
                                 <label for="files">Archivos:</label>
-                                <input type="file" class="form-control-file" name="attachment[]" multiple>
-                        </div>
-
+                                
+                                <div class="file-loading">
+                                    <input type="file" name="attachment[]" data-preview-file-type="text" multiple>
+                                </div>
+    
+    
+                                <script>
+                                    $(document).on('ready', function() {
+                                        // initialize with defaults
+                                        $("[type='file']").fileinput({ initialPreview: [url1, url2],
+                                            theme: "fas"
+                                        });
+                                    });
+                                </script>
+    
+                            </div>  
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                 </div>
