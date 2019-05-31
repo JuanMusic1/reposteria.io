@@ -85,10 +85,18 @@ class ExerciseController extends Controller
         $exercises->users()->attach($user);
 
         if($request->get('users') != "")
-        {
-            foreach (explode(',', $request->get('users')) as $id)
+        {   
+            $users = explode(',', $request->get('users'));
+            //Sanatizar array
+            for($i=0; $i<count($users); $i++)
             {
-                $exercises->users()->attach($id);
+                $users[$i] = trim($users[$i]);
+            }
+            $users = array_unique($users);
+            //Guardar
+            foreach ($users as $user_id)
+            {
+                $exercises->users()->attach(trim($user_id));
             }
         }
 

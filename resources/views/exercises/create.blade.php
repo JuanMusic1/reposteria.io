@@ -13,6 +13,7 @@
                 </div>
             
                 <div class="card-body">
+                    
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -45,11 +46,9 @@
                             </select>
                         </div>
                       
-                      <div class="form-group">
-                            <div class="form-group">
-                                <label for="users">IDs de los usuarios separados por coma: (Ej: 11,12,13)</label>
-                                <textarea class="form-control" name="users" rows="2"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label for="users">IDs de los usuarios:</label><br>
+                            <input data-role="tagsinput" name="users"/>
                       </div>
 
                       <div class="form-group control-group increment">
@@ -67,27 +66,5 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    $(document).ready(function() {
-
-      $(".btn-success").click(function(){ 
-
-          var lsthmtl = $(".clone").html();
-
-          $(".increment").after(lsthmtl);
-
-      });
-
-      $("body").on("click",".btn-danger",function(){ 
-
-          $(this).parents(".hdtuto control-group lst").remove();
-
-      });
-
-    });
-
-</script>
 
 @endsection
