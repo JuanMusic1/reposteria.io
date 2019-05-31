@@ -57,15 +57,19 @@
                                 <label for="files">Archivos:</label>
                                 
                                 <div class="file-loading">
-                                    <input type="file" name="attachment[]" data-preview-file-type="text" multiple>
+                                    <input id="input-file" type="file" class="file" name="attachment[]" data-preview-file-type="text" multiple>
                                 </div>
     
-    
                                 <script>
-                                    $(document).on('ready', function() {
+                                    $(document).ready(function(){
                                         // initialize with defaults
-                                        $("[type='file']").fileinput({ initialPreview: [url1, url2],
-                                            theme: "fas"
+                                        $("#input-file").fileinput({
+                                            uploadUrl: "/exercises/store",
+                                            theme: 'fa',
+                                            language: 'es',
+                                            showUpload: false,
+                                            showUploadStats: false,
+                                            uploadAsync: false
                                         });
                                     });
                                 </script>

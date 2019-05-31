@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/bootstrap-tagsinput.js') }}" defer></script>
     <script src="{{ asset('js/main.js') }}" defer></script>
     
@@ -30,11 +30,11 @@
         dialog. bootstrap 4.x is supported. You can also use the bootstrap js 3.3.x versions. -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <!-- the main fileinput plugin file -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/js/fileinput.min.js"></script>
+    <script src="{{ asset('js/fileinput/fileinput.min.js') }}" defer></script>
     <!-- following theme script is needed to use the Font Awesome 5.x theme (`fas`) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/themes/fas/theme.min.js"></script>
+    <script src="{{ asset('js/fileinput/theme.min.js') }}" defer></script>
     <!-- optionally if you need translation for your language then include the locale file as mentioned below (replace LANG.js with your language locale) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/js/locales/es.js"></script>
+    <script src="{{ asset('js/fileinput/es.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -42,9 +42,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-tagsinput.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.1/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/fileinput/fileinput.min.css') }}" rel="stylesheet">
 
 
 </head>
