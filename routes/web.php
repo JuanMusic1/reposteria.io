@@ -16,12 +16,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 //Auth
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Another shit
-Route::get('/exercises/create/{tag}', 'ExerciseController@create');
+Route::get('/exercises/create/{tag}', 'ExerciseController@create')->name('exercise.create');
 Route::resource('exercises', 'ExerciseController');
 Route::resource('tags', 'TagController');

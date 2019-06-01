@@ -134,8 +134,7 @@ class ExerciseController extends Controller
             }
         }
 
-
-        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');
+        return redirect('/exercises/'.$exercises->id)->with('success', 'Ejercicio agregado correctamente');
 
     }
 
@@ -164,12 +163,24 @@ class ExerciseController extends Controller
     public function edit($id)
     {
 
-        $tags       = Tag::all();
-        $exercise   = Exercise::find($id);
-        $users      = $exercise->users;
-        $files      = File::where('exercise_id', $id)->get();
+        $exercise = Exercise::find($id);
+        $users = $exercise->users;
+        dd($users);
 
-        return view('exercises.edit', compact('exercise', 'tags', 'users', 'files'));
+        foreach($users as $user){
+
+            if($user->id == Auth::user()->id){
+
+                $tags       = Tag::all();
+                $files      = File::where('exercise_id', $id)->get();
+                
+                return view('exercises.edit', compact('exercise', 'tags', 'users', 'files'));
+
+            }
+        
+        }
+
+        return $this->show($id);
 
     }
 
@@ -188,61 +199,73 @@ class ExerciseController extends Controller
             'tag' => 'required'
           ]);
 
-        // Update exercise
 
         $exercise = Exercise::find($id);
-        $exercise->title = $request->get('title');
-        $exercise->description = $request->get('description');
-        $exercise->tag_id = $request->get('tag');
-        $exercise->save();
+        $users = $exercise->users;
 
-        // Update exercise_user
+        foreach($users as $user){
 
-        if($request->get('users') != "")
-        {
-            foreach (explode(',', $request->get('users')) as $id)
-            {
-                $exercise->users()->attach($id);
+                if($user->id == Auth::user()->id){
+
+                    // Update exercise
+
+                    $exercise->title = $request->get('title');
+                    $exercise->description = $request->get('description');
+                    $exercise->tag_id = $request->get('tag');
+                    $exercise->save();
+
+                    // Update exercise_user
+
+                    if($request->get('users') != "")
+                    {
+                        foreach (explode(',', $request->get('users')) as $id)
+                        {
+                            $exercise->users()->attach($id);
+                        }
+                    }
+                
+                    // Update files
+                
+                    if($request->hasFile('attachment'))
+                    {
+                        $allowedfileExtension = ['pdf','jpg','png','docx'];
+                        $attachments = $request->file('attachment');
+                    
+                        foreach ($attachments as $attachment)
+                        {
+                        
+                            $attachmentName = $attachment->getClientOriginalName();
+                            $extension      = $attachment->getClientOriginalExtension();
+                            $check          = in_array($extension,$allowedfileExtension);
+                            $filename       = $attachmentName.'_'.time().'.'.$extension;
+                        
+                        
+                            if($check)
+                            {
+                                // Storage
+                                $attachmDeleteDeleteent->storeAs('public/'.$exercises->id, $filename);
+                            
+                                //Save in database
+                                $files = new File([
+                                    'exercise_id' => $exercises->id,
+                                    'url' =>  $filename
+                                ]);
+                                $files->save();
+                                
+                            }
+                        
+                        }
+                    }
+                
+                    // Return
+                
+                    return redirect('/home')->with('success', 'Ejercicio agregado correctamente');
+
             }
         }
 
-        // Update files
-
-        if($request->hasFile('attachment'))
-        {
-            $allowedfileExtension = ['pdf','jpg','png','docx'];
-            $attachments = $request->file('attachment');
-
-            foreach ($attachments as $attachment)
-            {
-
-                $attachmentName = $attachment->getClientOriginalName();
-                $extension      = $attachment->getClientOriginalExtension();
-                $check          = in_array($extension,$allowedfileExtension);
-                $filename       = $attachmentName.'_'.time().'.'.$extension;
-
-
-                if($check)
-                {
-                    // Storage
-                    $attachmDeleteDeleteent->storeAs('public/'.$exercises->id, $filename);
-
-                    //Save in database
-                    $files = new File([
-                        'exercise_id' => $exercises->id,
-                        'url' =>  $filename
-                    ]);
-                    $files->save();
-
-                }
-
-            }
-        }
-
-        // Return
-
-        return redirect('/home')->with('success', 'Ejercicio agregado correctamente');
-
+        return $this->show($id);
+        
     }
 
     /**
@@ -253,30 +276,38 @@ class ExerciseController extends Controller
      */
     public function destroy($id)
     {
-
-        // Create model
-
+        
         $exercise = Exercise::find($id);
-
-        // Delete from exercise_user
-
         $users = $exercise->users;
+
         foreach($users as $user){
-            $user->exercises()->detach($exercise);
+
+            if($user->id == Auth::user()->id){
+
+                foreach($users as $user){
+                    $user->exercises()->detach($exercise);
+                }
+        
+                // Delete files
+        
+                $files = File::where('exercise_id', $id)->delete();
+        
+                //Delete from exercise table
+        
+                $exercise->delete();
+        
+                // Return
+        
+                return redirect('/exercises')->with('success', 'El ejercicio fue eliminado exitosamente');
+                    
+            }
+
         }
 
-        // Delete files
+        return $this->show($id);
 
-        $files = File::where('exercise_id', $id)->delete();
 
-        //Delete from exercise table
-
-        $exercise->delete();
-
-        // Return
-
-        return redirect('/exercises')->with('success', 'El ejercicio fue eliminado exitosamente');
-
+    
     }
 
 }

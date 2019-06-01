@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                   <td>Título</td>
-                  <td colspan="3"></td>
+                  <td>Acciones</td>
                 </tr>
             </thead>
             
@@ -20,28 +20,33 @@
                 @foreach($exercises as $exercise)
                 <tr>
                     <td>{{$exercise->title}}</td>
-                    <td><a href="{{ route('exercises.show',$exercise->id)}}" class="btn btn-success">Ver</a></td>
-                    
-                    @foreach($exercise->users as $user)
-                        @if($user->id == Auth::user()->id)
+                    <td>
+                        <div class="form-group">
                             
-                            <td><a href="{{ route('exercises.edit',$exercise->id)}}" class="btn btn-primary">Editar</a></td>
-                            <td>
-                            <form action="{{ route('exercises.destroy', $exercise->id)}}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" type="submit">Delete</button>
-                            </form>
-                            </td>
-
-                        @endif  
-                    @endforeach
+                            <a href="{{ route('exercises.show',$exercise->id)}}" class="btn btn-primary"><li class="fa fa-eye"></li></a>
                     
+                            @foreach($exercise->users as $user)
+                                @if($user->id == Auth::user()->id)
+
+                                    <a href="{{ route('exercises.edit',$exercise->id)}}" class="btn btn-success"><li class="fa fa-edit"></li></a>
+
+                                    <form style="display:inline;" action="{{ route('exercises.destroy', $exercise->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" type="submit"><li class="fa fa-trash"></li></button>
+                                    </form>
+                                
+                                @endif  
+                            @endforeach
+
+                        </div>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
     
         </table>
+
     </div>
 </section>
 

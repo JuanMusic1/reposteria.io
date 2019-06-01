@@ -30,7 +30,7 @@
                     
                         <div class="form-group">
                             <label for="title">Titulo:</label>
-                            <input type="text" class="form-control" name="title" value={{ $exercise->title }} />
+                            <input type="text" class="form-control" name="title" value="{{ $exercise->title }}" />
                          </div>
 
                         <div class="form-group">
@@ -42,7 +42,7 @@
                                 <label for="tag">Categoría:</label>
                                 <select class="form-control" name="tag">
                                     @foreach($tags as $tag)
-                                        <option value="{{ $tag->id }}" @if($tag->id == $exercise->tag_id) {{ "seleced" }} @endif >{{ $tag->title }}</option>
+                                        <option value="{{ $tag->id }}" @if($tag->id == $exercise->tag_id) {{ "selected" }} @endif >{{ $tag->title }}</option>
                                     @endforeach
                                 </select>
                         </div>
@@ -50,6 +50,7 @@
                     
                         <div class="form-group">
                                 <label for="users">IDs de los usuarios:</label><br>
+                                {{$users}}
                                 <input value="@foreach($users as $user) @if($user->id != Auth::user()->id) {{ $user->id . "," }} @endif @endforeach" data-role="tagsinput" name="users"/>
                             </div>
     
