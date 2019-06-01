@@ -149,8 +149,9 @@ class ExerciseController extends Controller
     {
 
         $exercise = Exercise::find($id);
+        $files    = File::where('exercise_id', $id)->get();
 
-        return view('exercises.show', compact('exercise'));
+        return view('exercises.show', compact('exercise', 'files'));
 
     }
 
@@ -162,12 +163,13 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
-        //$tags = Tag::where('user_id', auth()->id())->get();
-        $tags = Tag::all();
-        $exercise = Exercise::find($id);
-        $users = $exercise->users;
 
-        return view('exercises.edit', compact('exercise', 'tags', 'users'));
+        $tags       = Tag::all();
+        $exercise   = Exercise::find($id);
+        $users      = $exercise->users;
+        $files      = File::where('exercise_id', $id)->get();
+
+        return view('exercises.edit', compact('exercise', 'tags', 'users', 'files'));
 
     }
 

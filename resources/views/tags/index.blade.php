@@ -21,14 +21,22 @@
                 <tr>
                     <td>{{$exercise->title}}</td>
                     <td><a href="{{ route('exercises.show',$exercise->id)}}" class="btn btn-success">Ver</a></td>
-                    <td><a href="{{ route('exercises.edit',$exercise->id)}}" class="btn btn-primary">Editar</a></td>
-                    <td>
-                        <form action="{{ route('exercises.destroy', $exercise->id)}}" method="post">
-                          @csrf
-                          @method('DELETE')
-                          <button class="btn btn-danger" type="submit">Delete</button>
-                        </form>
-                    </td>            
+                    
+                    @foreach($exercise->users as $user)
+                        @if($user->id == Auth::user()->id)
+                            
+                            <td><a href="{{ route('exercises.edit',$exercise->id)}}" class="btn btn-primary">Editar</a></td>
+                            <td>
+                            <form action="{{ route('exercises.destroy', $exercise->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                            </td>
+
+                        @endif  
+                    @endforeach
+                    
                 </tr>
                 @endforeach
             </tbody>

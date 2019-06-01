@@ -62,7 +62,6 @@
                                 $(document).ready(function(){
                                     // initialize with defaults
                                     $("#input-file").fileinput({
-                                        uploadUrl: "/exercises/store",
                                         theme: 'fa',
                                         language: 'es',
                                         showUpload: false,

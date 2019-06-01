@@ -50,7 +50,7 @@
                     
                         <div class="form-group">
                                 <label for="users">IDs de los usuarios:</label><br>
-                                <input value="@foreach($users as $user) {{ $user->id . "," }} @endforeach" data-role="tagsinput" name="users"/>
+                                <input value="@foreach($users as $user) @if($user->id != Auth::user()->id) {{ $user->id . "," }} @endif @endforeach" data-role="tagsinput" name="users"/>
                             </div>
     
                           <div class="form-group control-group increment">
@@ -59,16 +59,27 @@
                                 <div class="file-loading">
                                     <input id="input-file" type="file" class="file" name="attachment[]" data-preview-file-type="text" multiple>
                                 </div>
-    
                                 <script>
+                                    var files       = {!! $files !!};
+                                    var exercise_id = {{ $exercise->id }}
+                                    var urls        = [];
+                                    for(var i = 0; i < files.length; i++){
+                                        urls[i] = encodeURI(window.location.hostname+":"+window.location.port+"/storage/" + exercise_id + "/" + files[i]['url']);
+                                    }
                                     $(document).ready(function(){
                                         // initialize with defaults
                                         $("#input-file").fileinput({
-                                            uploadUrl: "/exercises/store",
+                                            initialPreview: urls,
+                                            initialPreviewAsData: true,
+                                            initialPreviewConfig: [
+                                                {downloadUrl: urls[0], key: 1},
+                                                {downloadUrl: urls[1], key: 2}
+                                            ],
                                             theme: 'fa',
                                             language: 'es',
                                             showUpload: false,
                                             showUploadStats: false,
+                                            overwriteInitial: false,
                                             uploadAsync: false
                                         });
                                     });
