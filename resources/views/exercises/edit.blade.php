@@ -72,8 +72,9 @@
                                             initialPreview: urls,
                                             initialPreviewAsData: true,
                                             initialPreviewConfig: [
-                                                {downloadUrl: urls[0]},
-                                                {downloadUrl: urls[1]}
+                                                for(var i = 0; i < files.length; i++){
+                                                    document.write("{downloadUrl:" + urls[i] + "},");
+                                                }
                                             ],
                                             theme: 'fa',
                                             language: 'es',
