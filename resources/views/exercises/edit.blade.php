@@ -50,7 +50,6 @@
                     
                         <div class="form-group">
                                 <label for="users">IDs de los usuarios:</label><br>
-                                {{$users}}
                                 <input value="@foreach($users as $user) @if($user->id != Auth::user()->id) {{ $user->id . "," }} @endif @endforeach" data-role="tagsinput" name="users"/>
                             </div>
     
@@ -65,7 +64,7 @@
                                     var exercise_id = {{ $exercise->id }}
                                     var urls        = [];
                                     for(var i = 0; i < files.length; i++){
-                                        urls[i] = encodeURI(window.location.hostname+":"+window.location.port+"/storage/" + exercise_id + "/" + files[i]['url']);
+                                        urls[i] = encodeURI("http://"+window.location.hostname+":"+window.location.port+"/storage/" + exercise_id + "/" + files[i]['url']);
                                     }
                                     $(document).ready(function(){
                                         // initialize with defaults
@@ -73,8 +72,8 @@
                                             initialPreview: urls,
                                             initialPreviewAsData: true,
                                             initialPreviewConfig: [
-                                                {downloadUrl: urls[0], key: 1},
-                                                {downloadUrl: urls[1], key: 2}
+                                                {downloadUrl: urls[0]},
+                                                {downloadUrl: urls[1]}
                                             ],
                                             theme: 'fa',
                                             language: 'es',

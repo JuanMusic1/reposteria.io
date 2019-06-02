@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Tag;
 use App\Exercise;
+use App\User;
 use App\File;
 
+use DB;
 use Auth;
 use Storage;
 
@@ -29,11 +31,6 @@ class ExerciseController extends Controller
     {
 
         $exercises = Auth::user()->exercises;
-
-        if(count($exercises) == 0){
-            return redirect('/home')->with('success', 'No hay ejercicios en la lista');;
-        }
-
         return view('exercises.index', compact('exercises'));
 
     }
@@ -44,6 +41,7 @@ class ExerciseController extends Controller
      */
     public function create(Request $request)
     {
+        
         $tags       = Tag::all(); 
         $requestTag = $request->input('tag');
 
@@ -86,17 +84,18 @@ class ExerciseController extends Controller
 
         if($request->get('users') != "")
         {   
-            $users = explode(',', $request->get('users'));
+            $users_ids = explode(',', $request->get('users'));
             //Sanatizar array
-            for($i=0; $i<count($users); $i++)
+            for($i=0; $i<count($users_ids); $i++)
             {
-                $users[$i] = trim($users[$i]);
+                $users_ids[$i] = trim($users_ids[$i]);
             }
-            $users = array_unique($users);
+            $users_ids = array_unique($users_ids);
             //Guardar
-            foreach ($users as $user_id)
+            foreach ($users_ids as $user_id)
             {
-                $exercises->users()->attach(trim($user_id));
+                $user = User::find($user_id);
+                $exercises->users()->attach($user);
             }
         }
 
@@ -165,7 +164,6 @@ class ExerciseController extends Controller
 
         $exercise = Exercise::find($id);
         $users = $exercise->users;
-        dd($users);
 
         foreach($users as $user){
 
@@ -212,17 +210,25 @@ class ExerciseController extends Controller
                     $exercise->title = $request->get('title');
                     $exercise->description = $request->get('description');
                     $exercise->tag_id = $request->get('tag');
-                    $exercise->save();
 
                     // Update exercise_user
 
                     if($request->get('users') != "")
-                    {
+                    {   
+                        // Delete all
+
+
+                        //Save all
+
                         foreach (explode(',', $request->get('users')) as $id)
-                        {
+                        {   
                             $exercise->users()->attach($id);
                         }
                     }
+
+                    // Save exercise
+
+                    $exercise->save();
                 
                     // Update files
                 
@@ -281,7 +287,7 @@ class ExerciseController extends Controller
         $users = $exercise->users;
 
         foreach($users as $user){
-
+        
             if($user->id == Auth::user()->id){
 
                 foreach($users as $user){
@@ -301,7 +307,7 @@ class ExerciseController extends Controller
                 return redirect('/exercises')->with('success', 'El ejercicio fue eliminado exitosamente');
                     
             }
-
+        
         }
 
         return $this->show($id);
