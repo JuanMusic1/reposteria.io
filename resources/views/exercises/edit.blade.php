@@ -75,6 +75,7 @@
                                     $(document).ready(function(){
                                         // initialize with defaults
                                         $("#input-file").fileinput({
+                                            allowedFileExtensions: ['gif', 'pdf','jpg','png','svg', 'ogg', 'mp3', 'mp4', 'wav', 'webm'],
                                             fileActionSettings:{
                                                 showRemove: false
                                             },

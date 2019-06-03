@@ -105,7 +105,7 @@ class ExerciseController extends Controller
 
         if($request->hasFile('attachment'))
         {
-            //$allowedfileExtension = ['pdf','jpg','png','docx'];
+            $allowedfileExtension = ['gif', 'pdf','jpg','png','svg', 'ogg', 'mp3', 'mp4', 'wav', 'webm'];
             $attachments = $request->file('attachment');
             
 
@@ -114,12 +114,12 @@ class ExerciseController extends Controller
 
                 $attachmentName = $attachment->getClientOriginalName();
                 $extension      = $attachment->getClientOriginalExtension();
-                //$check          = in_array($extension,$allowedfileExtension);
+                $check          = in_array($extension,$allowedfileExtension);
                 $filename       = $attachmentName.'_'.time().'.'.$extension;
 
 
-                //if($check)
-                //{
+                if($check)
+                {
                     // Storage
                     $attachment->storeAs('public/'.$exercises->id, $filename);
 
@@ -131,7 +131,7 @@ class ExerciseController extends Controller
                     ]);
                     $files->save();
 
-                //}
+                }
 
             }
         }
@@ -156,20 +156,10 @@ class ExerciseController extends Controller
 
             if(preg_match('/(jpg|png|gif|svg)/', $file->extension)){
                 $type = "image";
-            }else if(preg_match('/(docx?|xlsx?|pptx?|pps|potx?)/', $file->extension)){
-                $type = "office";
-            }else if(preg_match('/(rtf|docx?|xlsx?|pptx?|pps|potx?|ods|odt|pages|ai|dxf|ttf|tiff?|wmf|e?ps)/', $file->extension)){
-                $type = "gdocs";
-            }else if(preg_match('/(htm|html)/', $file->extension)){
-                $type = "html";
-            }else if(preg_match('/(txt|md|csv|nfo|php|ini|java)/', $file->extension)){
-                $type = "text";
             }else if(preg_match('/(ogg|mp4|webm)/', $file->extension)){
                 $type = "video";
             }else if(preg_match('/(ogg|mp3|wav)/', $file->extension)){
                 $type = "audio";
-            }else if(preg_match('/(swf)/', $file->extension)){
-                $type = "flash";
             }else if(preg_match('/(pdf)/', $file->extension)){
                 $type = "pdf";
             }else{
@@ -220,20 +210,10 @@ class ExerciseController extends Controller
 
                 if(preg_match('/(jpg|png|gif|svg)/', $file->extension)){
                     $type = "image";
-                }else if(preg_match('/(docx?|xlsx?|pptx?|pps|potx?)/', $file->extension)){
-                    $type = "office";
-                }else if(preg_match('/(rtf|docx?|xlsx?|pptx?|pps|potx?|ods|odt|pages|ai|dxf|ttf|tiff?|wmf|e?ps)/', $file->extension)){
-                    $type = "gdocs";
-                }else if(preg_match('/(htm|html)/', $file->extension)){
-                    $type = "html";
-                }else if(preg_match('/(txt|md|csv|nfo|php|ini|java)/', $file->extension)){
-                    $type = "text";
                 }else if(preg_match('/(ogg|mp4|webm)/', $file->extension)){
                     $type = "video";
                 }else if(preg_match('/(ogg|mp3|wav)/', $file->extension)){
                     $type = "audio";
-                }else if(preg_match('/(swf)/', $file->extension)){
-                    $type = "flash";
                 }else if(preg_match('/(pdf)/', $file->extension)){
                     $type = "pdf";
                 }else{
@@ -324,7 +304,7 @@ class ExerciseController extends Controller
             
             if($request->hasFile('attachment'))
             {
-                //$allowedfileExtension = ['pdf','jpg','png','docx'];
+                $allowedfileExtension = ['gif', 'pdf','jpg','png','svg', 'ogg', 'mp3', 'mp4', 'wav', 'webm'];
                 $attachments = $request->file('attachment');
                     
                 foreach ($attachments as $attachment)
@@ -332,12 +312,12 @@ class ExerciseController extends Controller
     
                     $attachmentName = $attachment->getClientOriginalName();
                     $extension      = $attachment->getClientOriginalExtension();
-                    //$check          = in_array($extension,$allowedfileExtension);
+                    $check          = in_array($extension,$allowedfileExtension);
                     $filename       = $attachmentName.'_'.time().'.'.$extension;
     
     
-                    //if($check)
-                    //{
+                    if($check)
+                    {
                         // Storage
                         $attachment->storeAs('public/'.$exercises->id, $filename);
     
@@ -349,7 +329,7 @@ class ExerciseController extends Controller
                         ]);
                         $files->save();
     
-                    //}
+                    }
     
                 }
             }

@@ -23,9 +23,11 @@
             @elseif($file['type'] == "video")
                 <div class="ard-img-top embed-responsive">
                     <iframe class="embed-responsive-item" src='../storage/{{ $exercise->id }}/{{ $file->url }}' allowfullscreen></iframe>
-                </div>
-            @else
+                </div>             
+            @elseif($file['type'] == "pdf")
                 <embed class="card-img-top" src='../storage/{{ $exercise->id }}/{{ $file->url }}' />
+            @else
+                <img class="card-img-top" src='../storage/{{ $exercise->id }}/{{ $file->url }}' class="img-thumbnail"/>
             @endif
    
         </div>
