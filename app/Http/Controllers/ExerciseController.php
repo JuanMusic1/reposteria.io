@@ -105,7 +105,7 @@ class ExerciseController extends Controller
 
         if($request->hasFile('attachment'))
         {
-            $allowedfileExtension = ['pdf','jpg','png','docx'];
+            //$allowedfileExtension = ['pdf','jpg','png','docx'];
             $attachments = $request->file('attachment');
             
 
@@ -114,23 +114,24 @@ class ExerciseController extends Controller
 
                 $attachmentName = $attachment->getClientOriginalName();
                 $extension      = $attachment->getClientOriginalExtension();
-                $check          = in_array($extension,$allowedfileExtension);
+                //$check          = in_array($extension,$allowedfileExtension);
                 $filename       = $attachmentName.'_'.time().'.'.$extension;
 
 
-                if($check)
-                {
+                //if($check)
+                //{
                     // Storage
                     $attachment->storeAs('public/'.$exercises->id, $filename);
 
                     //Save in database
                     $files = new File([
                         'exercise_id' => $exercises->id,
-                        'url' =>  $filename
+                        'url' =>  $filename,
+                        'extension' => $extension
                     ]);
                     $files->save();
 
-                }
+                //}
 
             }
         }
@@ -150,6 +151,34 @@ class ExerciseController extends Controller
 
         $exercise = Exercise::find($id);
         $files    = File::where('exercise_id', $id)->get();
+
+        foreach($files as $file){
+
+            if(preg_match('/(jpg|png|gif|svg)/', $file->extension)){
+                $type = "image";
+            }else if(preg_match('/(docx?|xlsx?|pptx?|pps|potx?)/', $file->extension)){
+                $type = "office";
+            }else if(preg_match('/(rtf|docx?|xlsx?|pptx?|pps|potx?|ods|odt|pages|ai|dxf|ttf|tiff?|wmf|e?ps)/', $file->extension)){
+                $type = "gdocs";
+            }else if(preg_match('/(htm|html)/', $file->extension)){
+                $type = "html";
+            }else if(preg_match('/(txt|md|csv|nfo|php|ini|java)/', $file->extension)){
+                $type = "text";
+            }else if(preg_match('/(ogg|mp4|webm)/', $file->extension)){
+                $type = "video";
+            }else if(preg_match('/(ogg|mp3|wav)/', $file->extension)){
+                $type = "audio";
+            }else if(preg_match('/(swf)/', $file->extension)){
+                $type = "flash";
+            }else if(preg_match('/(pdf)/', $file->extension)){
+                $type = "pdf";
+            }else{
+                $type = "image";
+            }
+
+            $file['type'] = $type;
+            
+        }
 
         return view('exercises.show', compact('exercise', 'files'));
 
@@ -181,15 +210,38 @@ class ExerciseController extends Controller
 
         if(in_array(Auth::user()->id, $users_id)){
 
-            $tags       = Tag::all();
-            $files      = File::where('exercise_id', $id)->get();
-            $urls       = array();
-            $urls_data  = array();
+            $tags           = Tag::all();
+            $files          = File::where('exercise_id', $id)->get();
+            $urls           = array();
+            $urls_data      = array();
 
             // Create urls and urls_data to preview
             foreach($files as $file){
+
+                if(preg_match('/(jpg|png|gif|svg)/', $file->extension)){
+                    $type = "image";
+                }else if(preg_match('/(docx?|xlsx?|pptx?|pps|potx?)/', $file->extension)){
+                    $type = "office";
+                }else if(preg_match('/(rtf|docx?|xlsx?|pptx?|pps|potx?|ods|odt|pages|ai|dxf|ttf|tiff?|wmf|e?ps)/', $file->extension)){
+                    $type = "gdocs";
+                }else if(preg_match('/(htm|html)/', $file->extension)){
+                    $type = "html";
+                }else if(preg_match('/(txt|md|csv|nfo|php|ini|java)/', $file->extension)){
+                    $type = "text";
+                }else if(preg_match('/(ogg|mp4|webm)/', $file->extension)){
+                    $type = "video";
+                }else if(preg_match('/(ogg|mp3|wav)/', $file->extension)){
+                    $type = "audio";
+                }else if(preg_match('/(swf)/', $file->extension)){
+                    $type = "flash";
+                }else if(preg_match('/(pdf)/', $file->extension)){
+                    $type = "pdf";
+                }else{
+                    $type = "image";
+                }
+
                 $url        = "http://localhost:8000/storage/".$exercise->id."/".$file['url'];
-                $url_data   = array('downloadUrl' => $url, 'key' => $file->id);
+                $url_data   = array('type' => $type, 'downloadUrl' => $url, 'key' => $file->id);
                 array_push($urls, $url);
                 array_push($urls_data, $url_data);
             }
@@ -272,7 +324,7 @@ class ExerciseController extends Controller
             
             if($request->hasFile('attachment'))
             {
-                $allowedfileExtension = ['pdf','jpg','png','docx'];
+                //$allowedfileExtension = ['pdf','jpg','png','docx'];
                 $attachments = $request->file('attachment');
                     
                 foreach ($attachments as $attachment)
@@ -280,23 +332,24 @@ class ExerciseController extends Controller
     
                     $attachmentName = $attachment->getClientOriginalName();
                     $extension      = $attachment->getClientOriginalExtension();
-                    $check          = in_array($extension,$allowedfileExtension);
+                    //$check          = in_array($extension,$allowedfileExtension);
                     $filename       = $attachmentName.'_'.time().'.'.$extension;
     
     
-                    if($check)
-                    {
+                    //if($check)
+                    //{
                         // Storage
                         $attachment->storeAs('public/'.$exercises->id, $filename);
     
                         //Save in database
                         $files = new File([
                             'exercise_id' => $exercises->id,
-                            'url' =>  $filename
+                            'url' =>  $filename,
+                            'extension' =>  $extension
                         ]);
                         $files->save();
     
-                    }
+                    //}
     
                 }
             }
