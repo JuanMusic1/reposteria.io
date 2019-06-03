@@ -64,6 +64,12 @@
                                     $("#input-file").fileinput({
                                         theme: 'fa',
                                         language: 'es',
+                                        uploadUrl: "/",
+                                        fileActionSettings:{
+                                            showUpload: false,
+                                            showUploadStats: false,
+                                            uploadAsync: false
+                                        },
                                         showUpload: false,
                                         showUploadStats: false,
                                         uploadAsync: false

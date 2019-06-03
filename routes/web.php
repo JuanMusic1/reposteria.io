@@ -24,3 +24,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/exercises/create/{tag}', 'ExerciseController@create')->name('exercise.create');
 Route::resource('exercises', 'ExerciseController');
 Route::resource('tags', 'TagController');
+Route::resource('files', 'FileController');
+

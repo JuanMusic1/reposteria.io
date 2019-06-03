@@ -74,6 +74,7 @@ class ExerciseController extends Controller
             'tag_id'=> $request->get('tag')
         ]);
 
+
         $exercises->save();
 
 
@@ -106,6 +107,7 @@ class ExerciseController extends Controller
         {
             $allowedfileExtension = ['pdf','jpg','png','docx'];
             $attachments = $request->file('attachment');
+            
 
             foreach ($attachments as $attachment)
             {
@@ -174,14 +176,25 @@ class ExerciseController extends Controller
             array_push($users_id, $user->id);
         }
 
+
         // Check if actual user is in array of users
 
         if(in_array(Auth::user()->id, $users_id)){
 
             $tags       = Tag::all();
             $files      = File::where('exercise_id', $id)->get();
-            
-            return view('exercises.edit', compact('exercise', 'tags', 'users', 'files'));
+            $urls       = array();
+            $urls_data  = array();
+
+            // Create urls and urls_data to preview
+            foreach($files as $file){
+                $url        = "http://localhost:8000/storage/".$exercise->id."/".$file['url'];
+                $url_data   = array('downloadUrl' => $url, 'key' => $file->id);
+                array_push($urls, $url);
+                array_push($urls_data, $url_data);
+            }
+
+            return view('exercises.edit', compact('exercise', 'tags', 'users', 'urls', 'urls_data'));
 
         }
 
@@ -198,6 +211,8 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
         $request->validate([
             'title'=>'required',
             'description'=> 'required',
@@ -205,8 +220,8 @@ class ExerciseController extends Controller
           ]);
 
 
-        $exercise   = Exercise::find($id);
-        $users      = $exercise->users;
+        $exercises   = Exercise::find($id);
+        $users      = $exercises->users;
         $users_id   = array();
 
         // Create array of users in exercise_user
@@ -222,9 +237,9 @@ class ExerciseController extends Controller
 
             // Update exercise
             
-            $exercise->title        = $request->get('title');
-            $exercise->description  = $request->get('description');
-            $exercise->tag_id       = $request->get('tag');
+            $exercises->title        = $request->get('title');
+            $exercises->description  = $request->get('description');
+            $exercises->tag_id       = $request->get('tag');
 
             // Update exercise_user
 
@@ -233,10 +248,10 @@ class ExerciseController extends Controller
 
                 // Delete users
 
-                foreach ($exercise->users as $user)
+                foreach ($exercises->users as $user)
                 {   
                     if($user->id != Auth::user()->id){
-                        $exercise->users()->detach($user);
+                        $exercises->users()->detach($user);
                     }
                 }
 
@@ -244,14 +259,14 @@ class ExerciseController extends Controller
 
                 foreach (explode(',', $request->get('users')) as $user_id)
                 {   
-                    $exercise->users()->attach(User::find($user_id));
+                    $exercises->users()->attach(User::find($user_id));
                 }
 
             }
 
             // Save exercise
 
-            $exercise->save();
+            $exercises->save();
         
             // Update files
             
@@ -259,36 +274,36 @@ class ExerciseController extends Controller
             {
                 $allowedfileExtension = ['pdf','jpg','png','docx'];
                 $attachments = $request->file('attachment');
-            
+                    
                 foreach ($attachments as $attachment)
                 {
-                
+    
                     $attachmentName = $attachment->getClientOriginalName();
                     $extension      = $attachment->getClientOriginalExtension();
                     $check          = in_array($extension,$allowedfileExtension);
                     $filename       = $attachmentName.'_'.time().'.'.$extension;
-                
-                
+    
+    
                     if($check)
                     {
                         // Storage
-                        $attachmDeleteDeleteent->storeAs('public/'.$exercises->id, $filename);
-                    
+                        $attachment->storeAs('public/'.$exercises->id, $filename);
+    
                         //Save in database
                         $files = new File([
                             'exercise_id' => $exercises->id,
                             'url' =>  $filename
                         ]);
                         $files->save();
-                        
+    
                     }
-                
+    
                 }
             }
     
             // Return
     
-            return redirect('/home')->with('success', 'Ejercicio agregado correctamente');
+            return redirect('/exercises')->with('success', 'Ejercicio agregado correctamente');
             
         }   
 

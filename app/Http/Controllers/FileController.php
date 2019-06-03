@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\File;
+use App\Exercise;
+
+use Auth;
+
 
 class FileController extends Controller
 {
@@ -78,7 +83,28 @@ class FileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $file       = File::find($id);
+        $exercise   = Exercise::find(File::find($id)->exercise_id);
+        $users      = $exercise->users;
+        $users_id   = array();
+
+        // Create array of users in exercise_user
+
+        foreach($users as $user){
+            array_push($users_id, $user->id);
+        }
+
+        // Check if actual user is in array of users
+
+        if(in_array(Auth::user()->id, $users_id))
+        {
+            File::find($id)->delete($id);
+            return response()->json(['success' => true, 'message' => 'File deleted']);
+        }
+        else
+        {
+            return response()->json(['success' => false, 'message' => 'Error']);
+        }
     }
 }

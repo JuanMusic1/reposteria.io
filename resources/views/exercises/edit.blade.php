@@ -24,7 +24,7 @@
                     @endif
 
                     
-                    <form method="post" action="{{ route('exercises.update', $exercise->id) }}">
+                    <form method="post" action="{{ route('exercises.update', $exercise->id) }} " enctype="multipart/form-data">
                     @method('PATCH')
                     @csrf
                     
@@ -55,27 +55,33 @@
     
                           <div class="form-group control-group increment">
                                 <label for="files">Archivos:</label>
-                                
+                                <meta name="csrf-token" content="{{ csrf_token() }}" />
+
                                 <div class="file-loading">
                                     <input id="input-file" type="file" class="file" name="attachment[]" data-preview-file-type="text" multiple>
                                 </div>
+
                                 <script>
-                                    var files       = {!! $files !!};
-                                    var exercise_id = {{ $exercise->id }}
-                                    var urls        = [];
-                                    for(var i = 0; i < files.length; i++){
-                                        urls[i] = encodeURI("http://"+window.location.hostname+":"+window.location.port+"/storage/" + exercise_id + "/" + files[i]['url']);
-                                    }
+                                    
+
+                                    var urls        = @json($urls);
+                                    var urls_data   = @json($urls_data);
+
+                                    
+                                    var deleteButton =  '<button type="button" id="deleteThisShit" class="btn kv-cust-btn btn-sm btn-kv btn-default btn-outline-secondary" title="Delete" key="{key}">' +
+                                                        '<i class="fa fa-trash"></i>' +
+                                                        '</button>';
+                                                        
                                     $(document).ready(function(){
                                         // initialize with defaults
                                         $("#input-file").fileinput({
+                                            fileActionSettings:{
+                                                showRemove: false
+                                            },
+                                            otherActionButtons: deleteButton,
                                             initialPreview: urls,
                                             initialPreviewAsData: true,
-                                            initialPreviewConfig: [
-                                                for(var i = 0; i < files.length; i++){
-                                                    document.write("{downloadUrl:" + urls[i] + "},");
-                                                }
-                                            ],
+                                            initialPreviewConfig: urls_data,
                                             theme: 'fa',
                                             language: 'es',
                                             showUpload: false,
@@ -83,7 +89,36 @@
                                             overwriteInitial: false,
                                             uploadAsync: false
                                         });
+                                        //ajax delete
+                                        $(".kv-preview-thumb").on('click', "#deleteThisShit", function(e) {
+                                            var thumb       = $(this).parent().parent().parent().parent();
+                                            var id          = $(this).attr("key");
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                }
+                                            });                                            
+                                            e.preventDefault();
+                                            $.ajax({
+                                                type: "delete",
+                                                url: "http://localhost:8000/files/"+id,
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                async:true,
+                                                success: function (data) {
+                                                    console.log(data);
+                                                    thumb.fadeOut( "slow", function() {
+                                                        thumb.remove();
+                                                    })
+                                                },
+                                                error: function (data) {
+                                                    console.log(data);
+                                                }
+                                             });
+                                        });
                                     });
+
+
                                 </script>
     
                             </div>  
