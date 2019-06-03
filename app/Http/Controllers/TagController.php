@@ -55,6 +55,28 @@ class TagController extends Controller
     }
 
     /**
+    * Display the specified resource.
+    *
+    * @param int $id
+    * @return \Illuminate\Http\Response
+    */
+    public function showAPI($id)
+    {
+
+        $exercises = Exercise::where('tag_id', $id)->get();
+        //return view('tags.index', compact('exercises'))->withTag($id);
+        if(count($exercises) != 0){
+            //$json = json_encode($exercises);
+            
+        } else {
+            return response()->json([
+                'error' => 'No hay ejercicios o el tag es invalido',
+            ]);
+        }
+        return response()->json($exercises);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
