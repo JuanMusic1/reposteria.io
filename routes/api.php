@@ -17,5 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//API
-Route::get('/exercises/{tag}', 'TagController@showAPI');
+// api
+Route::get('exercises/tag', 'ApiController@showExercisesByTag');
