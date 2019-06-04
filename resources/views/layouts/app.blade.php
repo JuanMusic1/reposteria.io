@@ -93,6 +93,8 @@
 
                                     <a class="dropdown-item" href="{{ route('exercises.index') }}">Mis ejercicios</a>
 
+                                    <a class="dropdown-item" href="{{ route('neuronas.index') }}">Mis neuronas</a>
+
                                     <a class="dropdown-item" href="{{ route('exercises.create') }}">Subir ejercicio</a>
 
                                     <!-- Logout -->

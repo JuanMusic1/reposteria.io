@@ -25,3 +25,4 @@ Route::get('/exercises/create/{tag}', 'ExerciseController@create')->name('exerci
 Route::resource('exercises', 'ExerciseController');
 Route::resource('tags', 'TagController');
 Route::resource('files', 'FileController');
+Route::resource('neuronas', 'NeuronaController');
