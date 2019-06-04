@@ -26,6 +26,5 @@ Route::resource('exercises', 'ExerciseController');
 Route::resource('tags', 'TagController');
 Route::resource('files', 'FileController');
 
-//API
-Route::get('/api/exercises/{tag}', 'TagController@showAPI');
+
 
