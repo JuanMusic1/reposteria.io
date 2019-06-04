@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // api
-Route::get('exercises/tag', 'ApiController@showExercisesByTag');
+Route::post('exercises/tag', 'ApiController@showExercisesByTag');
